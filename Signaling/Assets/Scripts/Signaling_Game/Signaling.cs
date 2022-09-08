@@ -5,17 +5,18 @@ using UnityEngine.Events;
 
 public class Signaling : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _thiefInside;
+    [SerializeField] private UnityEvent<bool> _thiefInside;
     [SerializeField] private AudioSource _audioSource;
 
-    public bool IsThiefOutSide { get; private set; }
+    public bool IsThiefInSide { get; private set; } = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Thief>(out Thief thief))
         {
-            _thiefInside.Invoke();
-            IsThiefOutSide = false;
+            IsThiefInSide = true;
+            _thiefInside.Invoke(IsThiefInSide);
+            
         }
     }
 
@@ -23,7 +24,7 @@ public class Signaling : MonoBehaviour
     {
         if (collision.TryGetComponent<Thief>(out Thief thief))
         {
-            IsThiefOutSide = true;
+            IsThiefInSide = false;
         }
     }
 }
