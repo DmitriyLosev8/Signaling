@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Signaling : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<bool> _thiefInside;
+    [SerializeField] private UnityEvent _thiefInside;
     [SerializeField] private AudioSource _audioSource;
 
     public bool IsThiefInSide { get; private set; } = false;
@@ -15,8 +15,7 @@ public class Signaling : MonoBehaviour
         if (collision.TryGetComponent<Thief>(out Thief thief))
         {
             IsThiefInSide = true;
-            _thiefInside.Invoke(IsThiefInSide);
-            
+            _thiefInside.Invoke();    
         }
     }
 
