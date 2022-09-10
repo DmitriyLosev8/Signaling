@@ -6,13 +6,12 @@ public class MovementOfThief : MonoBehaviour
 {
     [SerializeField] private float _speed;
    
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.D) == true)
         {
             transform.Translate(_speed * Time.deltaTime,0,0);
         }
-
 
         if (Input.GetKey(KeyCode.A) == true)
         {
