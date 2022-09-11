@@ -5,40 +5,30 @@ using UnityEngine.Events;
 
 public class Alarm : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _thiefInside;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _speedOfChageVolume;
 
-    private Coroutine _downgradeVolume;
-    private Coroutine _riseVolume;
+    private Coroutine _changeVolume;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void VolumeUp()
     {
-        if (collision.TryGetComponent<Thief>(out Thief thief))
+        if (_changeVolume != null)
         {
-            _thiefInside.Invoke();
-           
-            if (_downgradeVolume != null)
-            {
-                StopCoroutine(_downgradeVolume);
-                _riseVolume = StartCoroutine(RiseVolume());
-            }
-            else
-            {
-                _riseVolume = StartCoroutine(RiseVolume());
-            }
+            StopCoroutine(_changeVolume);
+            _changeVolume = StartCoroutine(RiseVolume());
+        }
+        else
+        {
+            _changeVolume = StartCoroutine(RiseVolume());
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void VolumeDown()
     {
-        if (collision.TryGetComponent<Thief>(out Thief thief))
+        if (_changeVolume != null)
         {
-           if(_riseVolume != null)
-            {
-                StopCoroutine(_riseVolume);
-                _downgradeVolume = StartCoroutine(DowngradeVolume());
-            }         
+            StopCoroutine(_changeVolume);
+            _changeVolume = StartCoroutine(DowngradeVolume());
         }
     }
 
