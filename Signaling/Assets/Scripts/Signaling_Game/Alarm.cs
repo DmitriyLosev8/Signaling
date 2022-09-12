@@ -8,49 +8,40 @@ public class Alarm : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _speedOfChageVolume;
 
-    private Coroutine _changeVolume;
+    private Coroutine _volumeChenger;
 
     public void VolumeUp()
     {
-        if (_changeVolume != null)
+        float TargetValueOfVolume = 1;
+        
+        if (_volumeChenger != null)
         {
-            StopCoroutine(_changeVolume);
-            _changeVolume = StartCoroutine(RiseVolume());
+            StopCoroutine(_volumeChenger);
+            _volumeChenger = StartCoroutine(ChangeVolume(TargetValueOfVolume));
         }
         else
         {
-            _changeVolume = StartCoroutine(RiseVolume());
+            _volumeChenger = StartCoroutine(ChangeVolume(TargetValueOfVolume));
         }
     }
 
     public void VolumeDown()
     {
-        if (_changeVolume != null)
-        {
-            StopCoroutine(_changeVolume);
-            _changeVolume = StartCoroutine(DowngradeVolume());
-        }
-    }
-
-    private IEnumerator RiseVolume()
-    {
-        float TargetValueOfVolume = 1;
-
-        while (_audioSource.volume < TargetValueOfVolume)
-        {
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, TargetValueOfVolume, _speedOfChageVolume * Time.deltaTime);
-            yield return null;
-        }
-    }
-
-    private IEnumerator DowngradeVolume()
-    {
         float TargetValueOfVolume = 0;
 
-        while (_audioSource.volume > TargetValueOfVolume)
+        if (_volumeChenger != null)
+        {
+            StopCoroutine(_volumeChenger);
+            _volumeChenger = StartCoroutine(ChangeVolume(TargetValueOfVolume));
+        }
+    }
+
+    private IEnumerator ChangeVolume(float TargetValueOfVolume)
+    {
+        while (_audioSource.volume != TargetValueOfVolume)
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, TargetValueOfVolume, _speedOfChageVolume * Time.deltaTime);
             yield return null;
         }
-    }
+    } 
 }
